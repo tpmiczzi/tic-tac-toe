@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Title</title>
+    <div th:replace="links :: links"></div>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th, tr {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<!--<div th:replace="scripts :: scripts"></div>-->
+
+<h2><a href="/new">Новая игра</a></h2>
+<h2><a href="/list">Список игр</a></h2>
+
+<div th:if="${isShowListGame != false}">
+    <ul th:each="game : ${games}">
+        <li th:text="${game.nameGame} + ' - ' + ${game.statusGame}"></li>
+    </ul>
+</div>
+
+<div th:if="${createNewGame != false}">
+    <form action="#" th:action="@{/newGame}" th:object="${newGame}" method="post">
+        <p>Введите название игры : <input type="text" th:field="*{nameGame}"/></p>
+        <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+    </form>
+</div>
+
+<div th:if="${gameStarted != false}">
+    <div th:if="${figure} == null">
+        <h1>Ходит игрок - X</h1>
+    </div>
+    <div th:if="${figure} != null">
+        <h1 th:text="'Ходит игрок -' + ${figure}"></h1>
+    </div>
+    <th:block th:if="${fieldStop != 'stop' }">
+        <div class="table">
+            <table>
+                <tr>
+                    <th onMouseOver="this.style.background='#FFCC33'" onMouseOut="this.style.background='#FFFFFF'"
+                        onClick="document.location='/addFigure?osiX=0&amp;osiY=0'" th:text="${playingField[0][0]}"></th>
+                    <th onMouseOver="this.style.background='#FFCC33'" onMouseOut="this.style.background='#FFFFFF'"
+                        onClick="document.location='/addFigure?osiX=0&amp;osiY=1'" th:text="${playingField[0][1]}"></th>
+                    <th onMouseOver="this.style.background='#FFCC33'" onMouseOut="this.style.background='#FFFFFF'"
+                        onClick="document.location='/addFigure?osiX=0&amp;osiY=2'" th:text="${playingField[0][2]}"></th>
+                </tr>
+                <tr>
+                    <th onMouseOver="this.style.background='#FFCC33'" onMouseOut="this.style.background='#FFFFFF'"
+                        onClick="document.location='/addFigure?osiX=1&amp;osiY=0'" th:text="${playingField[1][0]}"></th>
+                    <th onMouseOver="this.style.background='#FFCC33'" onMouseOut="this.style.background='#FFFFFF'"
+                        onClick="document.location='/addFigure?osiX=1&amp;osiY=1'" th:text="${playingField[1][1]}"></th>
+                    <th onMouseOver="this.style.background='#FFCC33'" onMouseOut="this.style.background='#FFFFFF'"
+                        onClick="document.location='/addFigure?osiX=1&amp;osiY=2'" th:text="${playingField[1][2]}"></th>
+                </tr>
+                <tr>
+                    <th onMouseOver="this.style.background='#FFCC33'" onMouseOut="this.style.background='#FFFFFF'"
+                        onClick="document.location='/addFigure?osiX=2&amp;osiY=0'" th:text="${playingField[2][0]}"></th>
+                    <th onMouseOver="this.style.background='#FFCC33'" onMouseOut="this.style.background='#FFFFFF'"
+                        onClick="document.location='/addFigure?osiX=2&amp;osiY=1'" th:text="${playingField[2][1]}"></th>
+                    <th onMouseOver="this.style.background='#FFCC33'" onMouseOut="this.style.background='#FFFFFF'"
+                        onClick="document.location='/addFigure?osiX=2&amp;osiY=2'" th:text="${playingField[2][2]}"></th>
+                </tr>
+            </table>
+        </div>
+    </th:block>
+
+
+</div>
+<div th:if="${fieldStop == 'stop'}">
+    <h1 th:text="'Победиль - ' + ${figure}"></h1>
+</div>
+<div th:if="${fieldStop == 'drow'}">
+    <h1 th:text="'Ничья '"></h1>
+</div>
+</body>
+</html>
+
+
